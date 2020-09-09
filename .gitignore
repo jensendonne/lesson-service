@@ -1,0 +1,8 @@
+/target/
+/.settings/
+.classpath
+.project
+/logs/
+/src/main/resources/*.jar
+/config/
+/db/
