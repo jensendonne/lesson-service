@@ -14,7 +14,7 @@ import app.lesson.lesnsrvc.response.WXLoginResponse;
 import app.lesson.lesnsrvc.service.DataPersistenceService;
 import app.lesson.lesnsrvc.service.GenericUserService;
 import app.lesson.lesnsrvc.service.WXService;
-import app.lesson.lesnsrvc.util.SecurityUtils;
+import app.lesson.lesnsrvc.util.UsefulTools;
 
 /**
  * @author Rocketman
@@ -48,7 +48,7 @@ public class GenericUserServiceImpl implements GenericUserService {
 		LoginedUser record = new LoginedUser();
 		String loginState = null;
 		try {
-			loginState = SecurityUtils.digestSHA256(wxRes.getSession_key());
+			loginState = UsefulTools.digestMD5(wxRes.getSession_key());
 		} catch (Exception e) {
 			logger.error("生成登录态异常：", e);
 			return null;

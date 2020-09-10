@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 
 import app.lesson.lesnsrvc.request.CommonRequest;
+import app.lesson.lesnsrvc.request.StudentRegisterRequest;
 import app.lesson.lesnsrvc.response.CommonResponse;
 import app.lesson.lesnsrvc.service.StudentService;
 
@@ -25,7 +26,7 @@ public class StudentController {
 	
 	@PostMapping("/register")
 	@ResponseBody
-	public CommonResponse register(@RequestBody CommonRequest req) {
+	public CommonResponse register(@RequestBody StudentRegisterRequest req) {
 		// TODO 敏感信息
 		logger.info(JSON.toJSONString(req));
 		CommonResponse res = studentService.register(req);

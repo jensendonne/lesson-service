@@ -2,14 +2,12 @@ package app.lesson.lesnsrvc.model;
 
 import java.util.Date;
 
-public class Student {
+public class Teacher {
     private String openid;
 
-    private String studentId;
+    private String authCode;
 
     private String name;
-
-    private Integer lessonAmount;
 
     private Date createTime;
 
@@ -23,12 +21,12 @@ public class Student {
         this.openid = openid == null ? null : openid.trim();
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getAuthCode() {
+        return authCode;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId == null ? null : studentId.trim();
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode == null ? null : authCode.trim();
     }
 
     public String getName() {
@@ -37,14 +35,6 @@ public class Student {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getLessonAmount() {
-        return lessonAmount;
-    }
-
-    public void setLessonAmount(Integer lessonAmount) {
-        this.lessonAmount = lessonAmount;
     }
 
     public Date getCreateTime() {

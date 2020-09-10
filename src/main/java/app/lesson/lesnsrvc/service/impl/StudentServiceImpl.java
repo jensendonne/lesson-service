@@ -11,9 +11,11 @@ import app.lesson.lesnsrvc.dao.StudentMapper;
 import app.lesson.lesnsrvc.model.LoginedUser;
 import app.lesson.lesnsrvc.model.Student;
 import app.lesson.lesnsrvc.request.CommonRequest;
+import app.lesson.lesnsrvc.request.StudentRegisterRequest;
 import app.lesson.lesnsrvc.response.CommonResponse;
 import app.lesson.lesnsrvc.service.DataPersistenceService;
 import app.lesson.lesnsrvc.service.StudentService;
+import app.lesson.lesnsrvc.util.UsefulTools;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -25,7 +27,7 @@ public class StudentServiceImpl implements StudentService {
 	private DataPersistenceService dataPersistenceService;
 	
 	@Override
-	public CommonResponse register(CommonRequest req) {
+	public CommonResponse register(StudentRegisterRequest req) {
 		logger.info("注册学生身份");
 		CommonResponse res = new CommonResponse();
 		LoginedUser userInfo = req.getUserInfo();
@@ -44,6 +46,18 @@ public class StudentServiceImpl implements StudentService {
 		// 若走到这里，则未注册过，于是开始注册学生
 		Student stu = new Student();
 		stu.setOpenid(userInfo.getOpenid());
+		try {
+			stu.setStudentId(UsefulTools.digestMD5(userInfo.getOpenid()));
+		} catch (Exception e) {
+			logger.error("生成student id异常：", e);
+			res.setResponse(ResponseCode.SERVER_ERROR);
+			return res;
+		}
+		if (req.getName() != null) {
+			stu.setName(req.getName());
+		} else {
+			stu.setName("同学" + UsefulTools.generateRandomNumber(4));
+		}
 		stu.setLessonAmount(0);
 		userInfo.setRole(UserRole.Student.idCode);
 		try {
