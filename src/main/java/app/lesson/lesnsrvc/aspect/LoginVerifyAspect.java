@@ -1,9 +1,12 @@
 package app.lesson.lesnsrvc.aspect;
 
+import java.lang.reflect.Method;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,34 +26,37 @@ public class LoginVerifyAspect {
 	@Autowired
 	private GenericUserService genericUserService;
 	
-	@Pointcut(value = "(execution(app.lesson.lesnsrvc.response.CommonResponse app.lesson.lesnsrvc.service.StudentService.*(..)) && args(req)) "
-			+ "|| (execution(app.lesson.lesnsrvc.response.CommonResponse app.lesson.lesnsrvc.service.TeacherService.*(..)) && args(req)))", 
+	@Pointcut(value = "(execution(* app.lesson.lesnsrvc.service.StudentService.*(..)) && args(req)) "
+			+ "|| (execution(* app.lesson.lesnsrvc.service.TeacherService.*(..)) && args(req)))", 
 			argNames="req")
 	public void verificationNeeded(CommonRequest req) {}
 	
 	@Around(value = "verificationNeeded(req)", argNames="req")
-	public CommonResponse verifyLoginState(ProceedingJoinPoint pjp, CommonRequest req) {
+	public Object verifyLoginState(ProceedingJoinPoint pjp, CommonRequest req) {
 		String loginState = req.getLoginState();
 		logger.info("登录态检查：{}", loginState);
-		CommonResponse res = new CommonResponse();
-		if (loginState == null || "".equals(loginState)) {
-			logger.info("登录态为空。");
-			res.setResponse(ResponseCode.LOGIN_EXPIRED);
-			return res;
+		LoginedUser user = null;
+		if (loginState != null && !"".equals(loginState)) {
+			user = genericUserService.getUserInfo(loginState);
 		}
-		LoginedUser user = genericUserService.getUserInfo(loginState);
-		if (user == null) {
-			logger.info("登录态失效。");
-			res.setResponse(ResponseCode.LOGIN_EXPIRED);
-			return res;
-		}
-		logger.info("登录态正常。");
 		req.setUserInfo(user);
+		Object res = null;
 		try {
-			res = (CommonResponse)pjp.proceed();
+			res = pjp.proceed();
 		} catch (Throwable e) {
 			logger.error("连接点方法执行异常：", e);
-			res.setResponse(ResponseCode.SERVER_ERROR);
+			MethodSignature ms = (MethodSignature) pjp.getSignature();
+			Method m = ms.getMethod();
+			Class<?> returnType = m.getReturnType();
+			if (CommonResponse.class.isAssignableFrom(returnType)) {
+				try {
+					res = returnType.newInstance();
+				} catch (Exception e1) {
+					logger.error("aop Advice方法反射创建返回值实例异常：", e1);
+					return res;
+				}
+				((CommonResponse) res).setResponse(ResponseCode.SERVER_ERROR);
+			}
 		}
 		return res;
 	}

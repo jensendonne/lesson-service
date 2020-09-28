@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.lesson.lesnsrvc.dao.LessonLogMapper">
+  <resultMap id="BaseResultMap" type="app.lesson.lesnsrvc.model.LessonLog">
+    <id column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <id column="signin_date" jdbcType="DATE" property="signinDate" />
+    <result column="signin_time" jdbcType="CHAR" property="signinTime" />
+    <result column="lesson_used" jdbcType="INTEGER" property="lessonUsed" />
+    <result column="student_confirm" jdbcType="BIT" property="studentConfirm" />
+    <result column="teacher_confirm" jdbcType="BIT" property="teacherConfirm" />
+    <result column="teacher_openid" jdbcType="VARCHAR" property="teacherOpenid" />
+    <result column="homework" jdbcType="VARCHAR" property="homework" />
+    <result column="hw_completed" jdbcType="BIT" property="hwCompleted" />
+    <result column="hw_comment" jdbcType="VARCHAR" property="hwComment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="s_name" jdbcType="VARCHAR" property="sName" />
+    <result column="t_name" jdbcType="VARCHAR" property="tName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    student_id, signin_date, signin_time, lesson_used, student_confirm, teacher_confirm, 
+    teacher_openid, homework, hw_completed, hw_comment, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lesson_log
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and signin_date = #{signinDate,jdbcType=DATE}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from lesson_log
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and signin_date = #{signinDate,jdbcType=DATE}
+  </delete>
+  <insert id="insert" parameterType="app.lesson.lesnsrvc.model.LessonLog">
+    insert into lesson_log (student_id, signin_date, signin_time, 
+      lesson_used, student_confirm, teacher_confirm, 
+      teacher_openid, homework, hw_completed, 
+      hw_comment, create_time, update_time
+      )
+    values (#{studentId,jdbcType=VARCHAR}, #{signinDate,jdbcType=DATE}, #{signinTime,jdbcType=CHAR}, 
+      #{lessonUsed,jdbcType=INTEGER}, #{studentConfirm,jdbcType=BIT}, #{teacherConfirm,jdbcType=BIT}, 
+      #{teacherOpenid,jdbcType=VARCHAR}, #{homework,jdbcType=VARCHAR}, #{hwCompleted,jdbcType=BIT}, 
+      #{hwComment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="app.lesson.lesnsrvc.model.LessonLog">
+    insert into lesson_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="signinDate != null">
+        signin_date,
+      </if>
+      <if test="signinTime != null">
+        signin_time,
+      </if>
+      <if test="lessonUsed != null">
+        lesson_used,
+      </if>
+      <if test="studentConfirm != null">
+        student_confirm,
+      </if>
+      <if test="teacherConfirm != null">
+        teacher_confirm,
+      </if>
+      <if test="teacherOpenid != null">
+        teacher_openid,
+      </if>
+      <if test="homework != null">
+        homework,
+      </if>
+      <if test="hwCompleted != null">
+        hw_completed,
+      </if>
+      <if test="hwComment != null">
+        hw_comment,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="signinDate != null">
+        #{signinDate,jdbcType=DATE},
+      </if>
+      <if test="signinTime != null">
+        #{signinTime,jdbcType=CHAR},
+      </if>
+      <if test="lessonUsed != null">
+        #{lessonUsed,jdbcType=INTEGER},
+      </if>
+      <if test="studentConfirm != null">
+        #{studentConfirm,jdbcType=BIT},
+      </if>
+      <if test="teacherConfirm != null">
+        #{teacherConfirm,jdbcType=BIT},
+      </if>
+      <if test="teacherOpenid != null">
+        #{teacherOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="homework != null">
+        #{homework,jdbcType=VARCHAR},
+      </if>
+      <if test="hwCompleted != null">
+        #{hwCompleted,jdbcType=BIT},
+      </if>
+      <if test="hwComment != null">
+        #{hwComment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="app.lesson.lesnsrvc.model.LessonLog">
+    update lesson_log
+    <set>
+      <if test="signinTime != null">
+        signin_time = #{signinTime,jdbcType=CHAR},
+      </if>
+      <if test="lessonUsed != null">
+        lesson_used = #{lessonUsed,jdbcType=INTEGER},
+      </if>
+      <if test="studentConfirm != null">
+        student_confirm = #{studentConfirm,jdbcType=BIT},
+      </if>
+      <if test="teacherConfirm != null">
+        teacher_confirm = #{teacherConfirm,jdbcType=BIT},
+      </if>
+      <if test="teacherOpenid != null">
+        teacher_openid = #{teacherOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="homework != null">
+        homework = #{homework,jdbcType=VARCHAR},
+      </if>
+      <if test="hwCompleted != null">
+        hw_completed = #{hwCompleted,jdbcType=BIT},
+      </if>
+      <if test="hwComment != null">
+        hw_comment = #{hwComment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and signin_date = #{signinDate,jdbcType=DATE}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="app.lesson.lesnsrvc.model.LessonLog">
+    update lesson_log
+    set signin_time = #{signinTime,jdbcType=CHAR},
+      lesson_used = #{lessonUsed,jdbcType=INTEGER},
+      student_confirm = #{studentConfirm,jdbcType=BIT},
+      teacher_confirm = #{teacherConfirm,jdbcType=BIT},
+      teacher_openid = #{teacherOpenid,jdbcType=VARCHAR},
+      homework = #{homework,jdbcType=VARCHAR},
+      hw_completed = #{hwCompleted,jdbcType=BIT},
+      hw_comment = #{hwComment,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and signin_date = #{signinDate,jdbcType=DATE}
+  </update>
+  
+  <select id="selectSigninedDatesByYearMonth" parameterType="map" resultType="java.lang.Integer">
+    select DAYOFMONTH(signin_date)
+    from lesson_log
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and year(signin_date) = #{year,jdbcType=INTEGER}
+      and month(signin_date) = #{month,jdbcType=INTEGER}
+      and student_confirm = 1
+      and teacher_confirm = 1
+  </select>
+  <select id="selectToConfirmDatesByYearMonth" parameterType="map" resultType="java.lang.Integer">
+    select DAYOFMONTH(signin_date)
+    from lesson_log
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and year(signin_date) = #{year,jdbcType=INTEGER}
+      and month(signin_date) = #{month,jdbcType=INTEGER}
+      and student_confirm = 1
+      and teacher_confirm = 0
+  </select>
+  <select id="selectToSigninDatesByYearMonth" parameterType="map" resultType="java.lang.Integer">
+    select DAYOFMONTH(signin_date)
+    from lesson_log
+    where student_id = #{studentId,jdbcType=VARCHAR}
+      and year(signin_date) = #{year,jdbcType=INTEGER}
+      and month(signin_date) = #{month,jdbcType=INTEGER}
+      and student_confirm = 0
+      and teacher_confirm = 0
+  </select>
+  <select id="selectLessonHistoryByStudentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select l.student_id, l.signin_date, l.signin_time, l.lesson_used, l.student_confirm, l.teacher_confirm, 
+      l.teacher_openid, l.homework, l.hw_completed, l.hw_comment, l.create_time, l.update_time,
+      s.name as s_name, t.name as t_name
+    from lesson_log l
+    join student s on l.student_id = s.student_id
+    join teacher t on l.teacher_openid = t.openid
+    where l.student_id = #{studentId,jdbcType=VARCHAR}
+      and l.student_confirm = 1
+      and l.teacher_confirm = 1
+    order by l.signin_date desc
+  </select>
+</mapper>

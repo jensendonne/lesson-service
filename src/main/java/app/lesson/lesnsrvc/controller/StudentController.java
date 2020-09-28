@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 
 import app.lesson.lesnsrvc.request.CommonRequest;
+import app.lesson.lesnsrvc.request.LessonHistoryRequest;
+import app.lesson.lesnsrvc.request.StuMainInfoRequest;
 import app.lesson.lesnsrvc.request.StudentRegisterRequest;
+import app.lesson.lesnsrvc.request.StudentSigninRequest;
+import app.lesson.lesnsrvc.request.UploadVideoRequest;
 import app.lesson.lesnsrvc.response.CommonResponse;
+import app.lesson.lesnsrvc.response.LessonHistoryResponse;
+import app.lesson.lesnsrvc.response.StuMainInfoResponse;
 import app.lesson.lesnsrvc.service.StudentService;
 
 @RestController
@@ -42,5 +48,30 @@ public class StudentController {
 		CommonResponse res = studentService.unregister(req);
 		logger.info(JSON.toJSONString(res));
 		return res;
+	}
+	
+	@PostMapping("/maininfo")
+	@ResponseBody
+	public StuMainInfoResponse getStudentMainInfo(@RequestBody StuMainInfoRequest req) {
+		StuMainInfoResponse res = studentService.getMainInfo(req);
+		return res;
+	}
+	
+	@PostMapping("/signin")
+	@ResponseBody
+	public CommonResponse signin(@RequestBody StudentSigninRequest req) {
+		return studentService.signin(req);
+	}
+	
+	@PostMapping("/lessonhistory")
+	@ResponseBody
+	public LessonHistoryResponse lessonHistory(@RequestBody LessonHistoryRequest req) {
+		return studentService.lessonHistory(req);
+	}
+	
+	@PostMapping(value="/upload", headers="content-type=multipart/form-data")
+	@ResponseBody
+	public CommonResponse uploadHomework(UploadVideoRequest req) {
+		return studentService.uploadHomework(req);
 	}
 }

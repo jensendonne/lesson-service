@@ -3,13 +3,19 @@
  */
 package app.lesson.lesnsrvc.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.lesson.lesnsrvc.constant.ResponseCode;
+import app.lesson.lesnsrvc.dao.LessonProductMapper;
 import app.lesson.lesnsrvc.dao.LoginedUserMapper;
+import app.lesson.lesnsrvc.model.LessonProduct;
 import app.lesson.lesnsrvc.model.LoginedUser;
+import app.lesson.lesnsrvc.response.LessonProductResponse;
 import app.lesson.lesnsrvc.response.WXLoginResponse;
 import app.lesson.lesnsrvc.service.DataPersistenceService;
 import app.lesson.lesnsrvc.service.GenericUserService;
@@ -29,6 +35,8 @@ public class GenericUserServiceImpl implements GenericUserService {
 	private DataPersistenceService dataPersistenceService;
 	@Autowired
 	private LoginedUserMapper loginedUserMapper;
+	@Autowired
+	private LessonProductMapper lessonProductMapper;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
@@ -77,5 +85,16 @@ public class GenericUserServiceImpl implements GenericUserService {
 			return null;
 		}
 		
+	}
+	
+	@Override
+	public LessonProductResponse getLessonProduct() {
+		logger.info("查询课程产品");
+		List<LessonProduct> list = lessonProductMapper.selectAll();
+		LessonProductResponse res = new LessonProductResponse();
+		res.setList(list);
+		res.setResponse(ResponseCode.SUCCESS);
+		logger.info("查询课程产品成功");
+		return res;
 	}
 }

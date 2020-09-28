@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import app.lesson.lesnsrvc.response.LessonProductResponse;
 import app.lesson.lesnsrvc.service.GenericUserService;
 
 /**
@@ -21,8 +23,8 @@ import app.lesson.lesnsrvc.service.GenericUserService;
  *
  */
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/generic")
+public class GenericUserController {
 
 	@Autowired
 	private GenericUserService genericUserService;
@@ -36,5 +38,11 @@ public class LoginController {
 		// TODO 敏感信息
 		logger.info("响应登录态代码：{}", loginState);
 		return loginState;
+	}
+	
+	@PostMapping("/product")
+	@ResponseBody
+	public LessonProductResponse getLessonProduct() {
+		return genericUserService.getLessonProduct();
 	}
 }

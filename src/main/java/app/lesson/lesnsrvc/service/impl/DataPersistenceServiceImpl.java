@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import app.lesson.lesnsrvc.dao.LessonLogMapper;
 import app.lesson.lesnsrvc.dao.LoginedUserMapper;
 import app.lesson.lesnsrvc.dao.StudentMapper;
 import app.lesson.lesnsrvc.dao.TeachAuthCodeMapper;
 import app.lesson.lesnsrvc.dao.TeacherMapper;
+import app.lesson.lesnsrvc.model.LessonLog;
 import app.lesson.lesnsrvc.model.LoginedUser;
 import app.lesson.lesnsrvc.model.Student;
 import app.lesson.lesnsrvc.model.TeachAuthCode;
@@ -33,6 +35,8 @@ public class DataPersistenceServiceImpl implements DataPersistenceService {
 	private TeacherMapper teacherMapper;
 	@Autowired
 	private TeachAuthCodeMapper teachAuthCodeMapper;
+	@Autowired
+	private LessonLogMapper lessonLogMapper;
 	
 	@Override
 	public void insertOrUpdateLoginedUser(LoginedUser user) throws Exception {
@@ -79,5 +83,21 @@ public class DataPersistenceServiceImpl implements DataPersistenceService {
 		user.setUpdateTime(null);
 		loginedUserMapper.updateByPrimaryKeySelective(user);
 		teacherMapper.deleteByPrimaryKey(user.getOpenid());
+	}
+	
+	@Override
+	public void studentSignin(LessonLog record, Student student) throws Exception {
+		LessonLog existing = lessonLogMapper.selectByPrimaryKey(record.getStudentId(), record.getSigninDate());
+		if (existing != null) {
+			lessonLogMapper.updateByPrimaryKeySelective(record);
+		} else {
+			lessonLogMapper.insertSelective(record);
+		}
+		studentMapper.updateByPrimaryKeySelective(student);
+	}
+	
+	@Override
+	public void updateLessonLogByPrimaryKeySelective(LessonLog record) throws Exception {
+		lessonLogMapper.updateByPrimaryKeySelective(record);
 	}
 }

@@ -7,6 +7,10 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * @author Rocketman
@@ -38,7 +42,49 @@ public class UsefulTools {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(generateRandomNumber(4));
+	/**
+	 * yyyyMMdd格式字符串转日期
+	 * @param yyyyMMdd
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date yyyyMMdd2Date(String yyyyMMdd) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.parse(yyyyMMdd);
+	}
+	
+	/**
+	 * 将日期对象转换为yyyyMMdd格式的字符串
+	 * @param date
+	 * @return
+	 */
+	public static String date2yyyyMMdd(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.format(date);
+	}
+	
+	/**
+	 * yyyy-MM-dd格式字符串转日期
+	 * @param dateStr
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date str2Date(String dateStr) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.parse(dateStr);
+	}
+	
+	/**
+	 * 将日期对象转换为yyyy-MM-dd格式的字符串
+	 * @param date
+	 * @return
+	 */
+	public static String date2Str(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
+	
+	public static void main(String[] args) throws Exception {
+		System.out.println(digestMD5("1234567890"));
 	}
 }

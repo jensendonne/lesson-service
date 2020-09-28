@@ -28,4 +28,9 @@ public class CommonResponse {
 		this.resCode = res.resCode;
 		this.resMsg = res.resMsg;
 	}
+	
+	public void setResponse(ResponseCode res, String customMsg) {
+		this.resCode = res.resCode;
+		this.resMsg = customMsg;
+	}
 }

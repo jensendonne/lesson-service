@@ -9,7 +9,11 @@ public class Student {
 
     private String name;
 
-    private Integer lessonAmount;
+    private Integer lessonLevel;
+
+    private Integer availLessonAmount;
+
+    private Integer frozenLessonAmount;
 
     private Date createTime;
 
@@ -39,12 +43,28 @@ public class Student {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getLessonAmount() {
-        return lessonAmount;
+    public Integer getLessonLevel() {
+        return lessonLevel;
     }
 
-    public void setLessonAmount(Integer lessonAmount) {
-        this.lessonAmount = lessonAmount;
+    public void setLessonLevel(Integer lessonLevel) {
+        this.lessonLevel = lessonLevel;
+    }
+
+    public Integer getAvailLessonAmount() {
+        return availLessonAmount;
+    }
+
+    public void setAvailLessonAmount(Integer availLessonAmount) {
+        this.availLessonAmount = availLessonAmount;
+    }
+
+    public Integer getFrozenLessonAmount() {
+        return frozenLessonAmount;
+    }
+
+    public void setFrozenLessonAmount(Integer frozenLessonAmount) {
+        this.frozenLessonAmount = frozenLessonAmount;
     }
 
     public Date getCreateTime() {
