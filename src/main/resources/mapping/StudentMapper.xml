@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.lesson.lesnsrvc.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="app.lesson.lesnsrvc.model.Student">
+    <id column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="lesson_level" jdbcType="INTEGER" property="lessonLevel" />
+    <result column="avail_lesson_amount" jdbcType="INTEGER" property="availLessonAmount" />
+    <result column="frozen_lesson_amount" jdbcType="INTEGER" property="frozenLessonAmount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    openid, student_id, name, lesson_level, avail_lesson_amount, frozen_lesson_amount, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from student
+    where openid = #{openid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="app.lesson.lesnsrvc.model.Student">
+    insert into student (openid, student_id, name, 
+      lesson_level, avail_lesson_amount, frozen_lesson_amount, 
+      create_time, update_time)
+    values (#{openid,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{lessonLevel,jdbcType=INTEGER}, #{availLessonAmount,jdbcType=INTEGER}, #{frozenLessonAmount,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="app.lesson.lesnsrvc.model.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="lessonLevel != null">
+        lesson_level,
+      </if>
+      <if test="availLessonAmount != null">
+        avail_lesson_amount,
+      </if>
+      <if test="frozenLessonAmount != null">
+        frozen_lesson_amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonLevel != null">
+        #{lessonLevel,jdbcType=INTEGER},
+      </if>
+      <if test="availLessonAmount != null">
+        #{availLessonAmount,jdbcType=INTEGER},
+      </if>
+      <if test="frozenLessonAmount != null">
+        #{frozenLessonAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="app.lesson.lesnsrvc.model.Student">
+    update student
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lessonLevel != null">
+        lesson_level = #{lessonLevel,jdbcType=INTEGER},
+      </if>
+      <if test="availLessonAmount != null">
+        avail_lesson_amount = #{availLessonAmount,jdbcType=INTEGER},
+      </if>
+      <if test="frozenLessonAmount != null">
+        frozen_lesson_amount = #{frozenLessonAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where openid = #{openid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="app.lesson.lesnsrvc.model.Student">
+    update student
+    set student_id = #{studentId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      lesson_level = #{lessonLevel,jdbcType=INTEGER},
+      avail_lesson_amount = #{availLessonAmount,jdbcType=INTEGER},
+      frozen_lesson_amount = #{frozenLessonAmount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where openid = #{openid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAllStudents" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+  </select>
+  <select id="selectByStudentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.lesson.lesnsrvc.dao.TeachAuthCodeMapper">
+  <resultMap id="BaseResultMap" type="app.lesson.lesnsrvc.model.TeachAuthCode">
+    <id column="auth_code" jdbcType="CHAR" property="authCode" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="used" jdbcType="BIT" property="used" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    auth_code, expire_time, used, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teach_auth_code
+    where auth_code = #{authCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teach_auth_code
+    where auth_code = #{authCode,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="app.lesson.lesnsrvc.model.TeachAuthCode">
+    insert into teach_auth_code (auth_code, expire_time, used, 
+      create_time, update_time)
+    values (#{authCode,jdbcType=CHAR}, #{expireTime,jdbcType=TIMESTAMP}, #{used,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="app.lesson.lesnsrvc.model.TeachAuthCode">
+    insert into teach_auth_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authCode != null">
+        auth_code,
+      </if>
+      <if test="expireTime != null">
+        expire_time,
+      </if>
+      <if test="used != null">
+        used,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authCode != null">
+        #{authCode,jdbcType=CHAR},
+      </if>
+      <if test="expireTime != null">
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="used != null">
+        #{used,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="app.lesson.lesnsrvc.model.TeachAuthCode">
+    update teach_auth_code
+    <set>
+      <if test="expireTime != null">
+        expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="used != null">
+        used = #{used,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where auth_code = #{authCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="app.lesson.lesnsrvc.model.TeachAuthCode">
+    update teach_auth_code
+    set expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      used = #{used,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where auth_code = #{authCode,jdbcType=CHAR}
+  </update>
+  <select id="selectValidAuthcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teach_auth_code
+    where auth_code = #{authCode,jdbcType=CHAR}
+      and expire_time > now()
+      and used = 0
+  </select>
+</mapper>
