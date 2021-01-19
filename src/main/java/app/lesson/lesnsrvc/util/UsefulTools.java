@@ -84,7 +84,20 @@ public class UsefulTools {
 		return sdf.format(date);
 	}
 	
+	/**
+	 * 如果字符串为null或空，返回true，否则返回false
+	 * @param str
+	 * @return
+	 */
+	public static boolean isStringEmpty(String str) {
+		if (str != null && str.length() > 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
-		System.out.println(digestMD5("1234567890"));
+		System.out.println(str2Date("2020-10-23"));
 	}
 }

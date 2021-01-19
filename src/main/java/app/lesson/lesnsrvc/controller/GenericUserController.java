@@ -43,6 +43,8 @@ public class GenericUserController {
 	@PostMapping("/product")
 	@ResponseBody
 	public LessonProductResponse getLessonProduct() {
-		return genericUserService.getLessonProduct();
+		LessonProductResponse res = genericUserService.getLessonProduct();
+		logger.info("/generic/product 响应：resCode={}, resMsg={}", res.getResCode(), res.getResMsg());
+		return res;
 	}
 }

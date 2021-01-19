@@ -1,5 +1,7 @@
 package app.lesson.lesnsrvc.dao;
 
+import java.util.List;
+
 import app.lesson.lesnsrvc.model.Student;
 
 public interface StudentMapper {
@@ -14,4 +16,8 @@ public interface StudentMapper {
     int updateByPrimaryKeySelective(Student record);
 
     int updateByPrimaryKey(Student record);
+    
+    List<Student> selectAllStudents();
+    
+    Student selectByStudentId(String studentId);
 }

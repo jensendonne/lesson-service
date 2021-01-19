@@ -3,6 +3,8 @@
  */
 package app.lesson.lesnsrvc.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,5 +101,27 @@ public class DataPersistenceServiceImpl implements DataPersistenceService {
 	@Override
 	public void updateLessonLogByPrimaryKeySelective(LessonLog record) throws Exception {
 		lessonLogMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	@Override
+	public void updateLessonLogByPrimaryKeySelective(List<LessonLog> list) throws Exception {
+		for (LessonLog l : list) {
+			lessonLogMapper.updateByPrimaryKeySelective(l);
+		}
+	}
+	
+	@Override
+	public void insertLessonLogSelective(LessonLog record) throws Exception {
+		lessonLogMapper.insertSelective(record);
+	}
+	
+	@Override
+	public void teacherConfirm(List<Student> studentList, List<LessonLog> lessonLogList) throws Exception {
+		for (Student student : studentList) {
+			studentMapper.updateByPrimaryKeySelective(student);
+		}
+		for (LessonLog lessonLog : lessonLogList) {
+			lessonLogMapper.updateByPrimaryKeySelective(lessonLog);
+		}
 	}
 }

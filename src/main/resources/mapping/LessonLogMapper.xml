@@ -17,6 +17,29 @@
     <result column="s_name" jdbcType="VARCHAR" property="sName" />
     <result column="t_name" jdbcType="VARCHAR" property="tName" />
   </resultMap>
+  <resultMap id="ResultMap1" type="app.lesson.lesnsrvc.model.StudentAndLessonInfo">
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="lesson_level" jdbcType="INTEGER" property="lessonLevel" />
+    <result column="avail_lesson_amount" jdbcType="INTEGER" property="availAmount" />
+    <result column="frozen_lesson_amount" jdbcType="INTEGER" property="frozenAmount" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="signin_time" jdbcType="CHAR" property="time" />
+    <result column="lesson_used" jdbcType="INTEGER" property="lessonUsed" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacher" />
+    <result column="homework" jdbcType="VARCHAR" property="homework" />
+    <result column="hw_completed" jdbcType="BIT" property="hwCompleted" />
+    <result column="hw_comment" jdbcType="VARCHAR" property="hwComment" />
+  </resultMap>
+  <resultMap id="ResultMap2" type="app.lesson.lesnsrvc.model.SimpleLessonLog">
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="signin_time" jdbcType="CHAR" property="time" />
+    <result column="lesson_used" jdbcType="INTEGER" property="lessonUsed" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacher" />
+    <result column="homework" jdbcType="VARCHAR" property="homework" />
+    <result column="hw_completed" jdbcType="BIT" property="hwCompleted" />
+    <result column="hw_comment" jdbcType="VARCHAR" property="hwComment" />
+  </resultMap>
   <sql id="Base_Column_List">
     student_id, signin_date, signin_time, lesson_used, student_confirm, teacher_confirm, 
     teacher_openid, homework, hw_completed, hw_comment, create_time, update_time
@@ -215,5 +238,49 @@
       and l.student_confirm = 1
       and l.teacher_confirm = 1
     order by l.signin_date desc
+  </select>
+  <select id="selectTheSignedInByDate" parameterType="java.util.Date" resultMap="ResultMap1">
+    select l.student_id, s.name as student_name, s.lesson_level, s.avail_lesson_amount, s.frozen_lesson_amount, 
+      DATE_FORMAT(l.signin_date, '%Y-%m-%d') as date, l.signin_time, l.lesson_used, t.name as teacher_name, 
+      l.homework, l.hw_completed, l.hw_comment
+    from lesson_log l
+    join student s on l.student_id = s.student_id
+    left join teacher t on l.teacher_openid = t.openid
+    where l.signin_date = #{signinDate,jdbcType=DATE}
+      and l.student_confirm = 1
+      and l.teacher_confirm = 0
+  </select>
+  <select id="selectCompletedLessonsBySidAndTid" parameterType="map" resultMap="ResultMap2">
+    select DATE_FORMAT(l.signin_date, '%Y-%m-%d') as date, l.signin_time, l.lesson_used, 
+      t.name as teacher_name, l.homework, l.hw_completed, l.hw_comment
+    from lesson_log l
+    join teacher t on l.teacher_openid = t.openid
+    where l.student_id = #{studentId,jdbcType=VARCHAR}
+      and l.teacher_openid = #{teacherOpenid,jdbcType=VARCHAR}
+      and l.student_confirm = 1
+      and l.teacher_confirm = 1
+    order by l.signin_date desc
+  </select>
+  <select id="selectCompletedLessonsByTid" parameterType="java.lang.String" resultMap="ResultMap1">
+    select l.student_id, s.name as student_name, s.lesson_level, s.avail_lesson_amount, s.frozen_lesson_amount, 
+      DATE_FORMAT(l.signin_date, '%Y-%m-%d') as date, l.signin_time, l.lesson_used, 
+      l.homework, l.hw_completed, l.hw_comment
+    from lesson_log l
+    join student s on l.student_id = s.student_id
+    where l.teacher_openid = #{teacherOpenid,jdbcType=VARCHAR}
+      and l.student_confirm = 1
+      and l.teacher_confirm = 1
+    order by l.signin_date desc
+  </select>
+  <select id="selectCompletedLessonsByDateAndTid" parameterType="map" resultMap="ResultMap1">
+    select l.student_id, s.name as student_name, s.lesson_level, 
+      DATE_FORMAT(l.signin_date, '%Y-%m-%d') as date, l.signin_time, l.lesson_used, 
+      l.homework, l.hw_completed, l.hw_comment
+    from lesson_log l
+    join student s on l.student_id = s.student_id
+    where l.teacher_openid = #{teacherOpenid,jdbcType=VARCHAR}
+      and l.signin_date = #{signinDate,jdbcType=DATE}
+      and l.student_confirm = 1
+      and l.teacher_confirm = 1
   </select>
 </mapper>

@@ -1,7 +1,8 @@
 package app.lesson.lesnsrvc.service;
 
+import app.lesson.lesnsrvc.model.Student;
 import app.lesson.lesnsrvc.request.CommonRequest;
-import app.lesson.lesnsrvc.request.LessonHistoryRequest;
+import app.lesson.lesnsrvc.request.ListQueryRequest;
 import app.lesson.lesnsrvc.request.StuMainInfoRequest;
 import app.lesson.lesnsrvc.request.StudentRegisterRequest;
 import app.lesson.lesnsrvc.request.StudentSigninRequest;
@@ -20,7 +21,9 @@ public interface StudentService {
 	
 	public CommonResponse signin(StudentSigninRequest req);
 	
-	public LessonHistoryResponse lessonHistory(LessonHistoryRequest req);
+	public LessonHistoryResponse lessonHistory(ListQueryRequest req);
 	
 	public CommonResponse uploadHomework(UploadVideoRequest req);
+	
+	public void setLessonInfo(Student student, String yearMonth, StuMainInfoResponse res);
 }

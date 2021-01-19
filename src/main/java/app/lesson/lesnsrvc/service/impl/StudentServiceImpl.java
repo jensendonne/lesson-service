@@ -26,7 +26,7 @@ import app.lesson.lesnsrvc.model.LessonLog;
 import app.lesson.lesnsrvc.model.LoginedUser;
 import app.lesson.lesnsrvc.model.Student;
 import app.lesson.lesnsrvc.request.CommonRequest;
-import app.lesson.lesnsrvc.request.LessonHistoryRequest;
+import app.lesson.lesnsrvc.request.ListQueryRequest;
 import app.lesson.lesnsrvc.request.StuMainInfoRequest;
 import app.lesson.lesnsrvc.request.StudentRegisterRequest;
 import app.lesson.lesnsrvc.request.StudentSigninRequest;
@@ -144,6 +144,14 @@ public class StudentServiceImpl implements StudentService {
 			return res;
 		}
 		String yearMonth = req.getCurrentYearMonth();
+		setLessonInfo(student, yearMonth, res);
+		res.setResponse(ResponseCode.SUCCESS);
+		logger.info("查询学生首页信息成功");
+		return res;
+	}
+	
+	@Override
+	public void setLessonInfo(Student student, String yearMonth, StuMainInfoResponse res) {
 		Date d;
 		try {
 			d = UsefulTools.yyyyMMdd2Date(yearMonth + "01");
@@ -178,9 +186,6 @@ public class StudentServiceImpl implements StudentService {
 		res.setLessonLevel(student.getLessonLevel());
 		res.setAvailLessonAmount(student.getAvailLessonAmount());
 		res.setFrozenLessonAmount(student.getFrozenLessonAmount());
-		res.setResponse(ResponseCode.SUCCESS);
-		logger.info("查询学生首页信息成功");
-		return res;
 	}
 	
 	@Override
@@ -244,7 +249,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 	
 	@Override
-	public LessonHistoryResponse lessonHistory(LessonHistoryRequest req) {
+	public LessonHistoryResponse lessonHistory(ListQueryRequest req) {
 		logger.info("查询学生上课记录：页码-{}，每页条数-{}", req.getPageNum(), req.getPageSize());
 		LessonHistoryResponse res = new LessonHistoryResponse();
 		LoginedUser userInfo = req.getUserInfo();

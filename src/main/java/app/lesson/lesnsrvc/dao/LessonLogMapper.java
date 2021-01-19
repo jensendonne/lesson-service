@@ -1,6 +1,9 @@
 package app.lesson.lesnsrvc.dao;
 
 import app.lesson.lesnsrvc.model.LessonLog;
+import app.lesson.lesnsrvc.model.SimpleLessonLog;
+import app.lesson.lesnsrvc.model.StudentAndLessonInfo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public interface LessonLogMapper {
     int updateByPrimaryKeySelective(LessonLog record);
 
     int updateByPrimaryKey(LessonLog record);
-    
+
     List<Integer> selectSigninedDatesByYearMonth(@Param("studentId") String studentId,
 			@Param("year") int year, @Param("month") int month);
 
@@ -27,6 +30,16 @@ public interface LessonLogMapper {
 
 	List<Integer> selectToSigninDatesByYearMonth(@Param("studentId") String studentId,
 			@Param("year") int year, @Param("month") int month);
-	
+
 	List<LessonLog> selectLessonHistoryByStudentId(String studentId);
+
+	List<StudentAndLessonInfo> selectTheSignedInByDate(Date signinDate);
+
+	List<SimpleLessonLog> selectCompletedLessonsBySidAndTid(@Param("studentId") String studentId, 
+			@Param("teacherOpenid") String teacherOpenid);
+
+	List<StudentAndLessonInfo> selectCompletedLessonsByTid(String teacherOpenid);
+
+	List<StudentAndLessonInfo> selectCompletedLessonsByDateAndTid(@Param("teacherOpenid") String teacherOpenid, 
+			@Param("signinDate") Date signinDate);
 }

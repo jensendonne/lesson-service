@@ -126,4 +126,16 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where openid = #{openid,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectAllStudents" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+  </select>
+  <select id="selectByStudentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </select>
 </mapper>

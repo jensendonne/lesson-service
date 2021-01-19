@@ -1,6 +1,6 @@
 package app.lesson.lesnsrvc.request;
 
-public class LessonHistoryRequest extends CommonRequest {
+public class ListQueryRequest extends CommonRequest {
 
 	/**
 	 * 页码
